@@ -1,0 +1,9 @@
+.secret_key
+diabetes.db
+venv/
+__pycache__/
+*.pyc
+predicted_results.csv
+prediction_report.csv
+New Text Document.txt
+.env

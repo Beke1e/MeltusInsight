@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}Meltus Insight{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% if g.user %}
+<div class="layout">
+  <aside class="aside" id="aside">
+    <div class="brand">Meltus<span>Insight</span></div>
+    <div class="nav-title">Workspace</div>
+    <nav class="nav">
+      <a href="{{ url_for('dashboard') }}"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
+      <a href="{{ url_for('patients') }}"><i class="fa-solid fa-users"></i>Patients</a>
+      <a href="{{ url_for('predict') }}"><i class="fa-solid fa-stethoscope"></i>New prediction</a>
+      <a href="{{ url_for('history') }}"><i class="fa-solid fa-clock-rotate-left"></i>History</a>
+    </nav>
+    <div class="nav-title" style="margin-top:25px">System</div>
+    <nav class="nav">
+      <a href="{{ url_for('about') }}"><i class="fa-solid fa-circle-info"></i>About Us</a>
+      <a href="{{ url_for('download') }}"><i class="fa-solid fa-file-export"></i>Export report</a>
+      <a href="{{ url_for('logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i>Sign out</a>
+    </nav>
+    <div class="aside-foot">Diabetes screening platform<br>Developed by Ejargew Abay + Bekele Mulat</div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile" aria-label="Open navigation" onclick="document.getElementById('aside').classList.toggle('open')"><i class="fa-solid fa-bars"></i></button>
+      <button class="sidebar-toggle" aria-label="Collapse or expand sidebar" title="Collapse or expand sidebar" onclick="toggleSidebar()"><i id="sidebar-icon" class="fa-solid fa-angles-left"></i></button>
+      <span class="crumb">Clinical workspace / {% block crumb %}Overview{% endblock %}</span>
+      <nav class="header-links" aria-label="Quick links"><a class="header-link" href="{{ url_for('about') }}"><i class="fa-solid fa-circle-info"></i> About Us</a><a class="header-link" href="{{ url_for('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></nav>
+      <div class="profile">{{ g.user['username'] }} <span class="avatar"><i class="fa-solid fa-user"></i></span></div>
+    </header>
+    <section class="content">{% with messages=get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}{% block content %}{% endblock %}</section>
+    <footer class="site-footer">Diabetes screening platform<br>Developed by Ejargew Abay + Bekele Mulat</footer>
+  </main>
+</div>
+<script>
+  const aside = document.getElementById('aside');
+  const icon = document.getElementById('sidebar-icon');
+  if (localStorage.getItem('sidebar-collapsed') === 'true') aside.classList.add('collapsed');
+  function syncSidebarIcon() { icon.className = aside.classList.contains('collapsed') ? 'fa-solid fa-angles-right' : 'fa-solid fa-angles-left'; }
+  function toggleSidebar() { aside.classList.toggle('collapsed'); localStorage.setItem('sidebar-collapsed', aside.classList.contains('collapsed')); syncSidebarIcon(); }
+  syncSidebarIcon();
+</script>
+{% else %}{% block auth_content %}{% endblock %}{% endif %}
+<script>
+  document.querySelectorAll('form[method="post"]').forEach(function (form) {
+    if (!form.querySelector('input[name="csrf_token"]')) {
+      const input = document.createElement('input');
+      input.type = 'hidden'; input.name = 'csrf_token'; input.value = {{ csrf_token|tojson }};
+      form.appendChild(input);
+    }
+  });
+</script>
+</body>
+</html>

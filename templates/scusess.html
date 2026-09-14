@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>All Prediction Records</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #2c3e50;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto 20px auto;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px 15px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #3498db;
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f7f9fc;
+    }
+
+    tr:hover {
+      background-color: #d6eaff;
+      transition: background-color 0.3s ease;
+    }
+
+    p {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #777;
+    }
+
+    .nav-links {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #3498db;
+      font-weight: 600;
+      margin: 0 15px;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #2980b9;
+    }
+
+    @media (max-width: 720px) {
+      table, th, td {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>All Logged Predictions</h2>
+
+  {% if records %}
+    <table>
+      <thead>
+        <tr>
+          <th>Treatment Type</th>
+          <th>Enrollment Timing</th>
+          <th>Education Category</th>
+          <th>Marital Status</th>
+          <th>Location Type</th>
+          <th>Age Group</th>
+          <th>Gender</th>
+          <th>Blood Sugar Status</th>
+          <th>Diabetes Type</th>
+          <th>Outcome</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in records %}
+          <tr>
+            <td>{{ row.Treatment_Type }}</td>
+            <td>{{ row.Enrollment_Timing }}</td>
+            <td>{{ row.Edu_Category }}</td>
+            <td>{{ row.Marital_Status }}</td>
+            <td>{{ row.Loc_Type }}</td>
+            <td>{{ row.Age_Group }}</td>
+            <td>{{ row.Sex }}</td>
+            <td>{{ row.Blood_Sugar }}</td>
+            <td>{{ row.Diabetes_Type }}</td>
+            <td>{{ row.Outcome }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No prediction records found.</p>
+  {% endif %}
+
+  <div class="nav-links">
+    <a href="/">← Back to Form</a> |
+    <a href="/download">Export</a>
+  </div>
+</body>
+</html>

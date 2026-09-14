@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Diabetes Outcome Prediction</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="prediction-page">
+  <main>
+    <h1>Diabetes outcome prediction</h1>
+    <p class="intro">Enter the patient profile to generate a screening prediction.</p>
+    <form method="post" action="{{ url_for('predict') }}">
+      <div class="fields">
+        <label>Treatment type<select name="Treatment_Type" required><option value="0">Pharmacological</option><option value="1">Healthy lifestyle counseling</option></select></label>
+        <label>Enrollment timing<select name="Enrollment_Timing" required><option value="0">Newly enrolled</option><option value="1">Previously enrolled</option></select></label>
+        <label>Education category<select name="Edu_Category" required><option value="0">Uneducated</option><option value="1">Educated</option></select></label>
+        <label>Marital status<select name="Marital_Status" required><option value="0">Married</option><option value="1">Single</option><option value="2">Divorced</option><option value="3">Widowed</option></select></label>
+        <label>Location type<select name="Loc_Type" required><option value="0">Rural</option><option value="1">Urban</option></select></label>
+        <label>Age group<select name="Age_Group" required><option value="0">Under 15 years</option><option value="1">15-29 years</option><option value="2">30-39 years</option><option value="3">40 years or older</option></select></label>
+        <label>Sex<select name="Sex" required><option value="0">Female</option><option value="1">Male</option></select></label>
+        <label>Blood sugar status<select name="Blood_Sugar" required><option value="0">Normal</option><option value="1">Raised</option></select></label>
+        <label>Diabetes type<select name="Diabetes_Type" required><option value="0">Type I</option><option value="1">Type II</option></select></label>
+      </div>
+      <button type="submit">Generate prediction</button>
+    </form>
+    <div class="links"><a href="{{ url_for('all_predictions') }}">Prediction history</a><a href="{{ url_for('download') }}">Download results</a></div>
+  </main>
+</body>
+</html>
